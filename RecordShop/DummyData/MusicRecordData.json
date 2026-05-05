@@ -1,0 +1,46 @@
+[
+    {
+        "id": 1,
+        "record_title": "In Times New Roman",
+        "artists": "Queens of the Stone Age",
+        "release_year": "2023",
+        "genre":  "Rock",
+        "stock": 5
+    },
+
+    {
+        "id": 2,
+        "record_title": "Villians",
+        "artists": "Queens of the Stone Age",
+        "release_year": "2017",
+        "genre": "Rock",
+        "stock": 5
+    },
+
+    {
+        "id": 3,
+        "record_title": "Era Vulgaris",
+        "artists": "Queens of the Stone Age",
+        "release_year": "2007",
+        "genre": "Rock",
+        "stock": 5
+    },
+
+    {
+        "id": 4,
+        "record_title": "Lullabies To Paralyze",
+        "artists": "Queens of the Stone Age",
+        "release_year": "2005",
+        "genre": "Rock",
+        "stock": 5
+    },
+
+    {
+        "id": 5,
+        "record_title": "Songs For The Deaf",
+        "artists": "Queens of the Stone Age",
+        "release_year": "2002",
+        "genre": "Rock",
+        "stock": 5
+    }
+]
