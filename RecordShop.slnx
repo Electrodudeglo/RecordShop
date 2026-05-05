@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="RecordShop-Test/RecordShop-Test.csproj" />
+  <Project Path="RecordShop/RecordShop.csproj" />
+</Solution>
