@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RecordShop.Model;
 using RecordShop.Services;
 
 namespace RecordShop.Controllers
@@ -28,5 +29,17 @@ namespace RecordShop.Controllers
             var OneRecord = _musicRecordService.ServiceGetOneRecord(id);
             return Ok(OneRecord);
         }
+
+        [HttpPost("records")]
+        public IActionResult AddOneRecord(MusicRecordModel musicRecordModel)
+        {
+
+            var postRecord = _musicRecordService.ServiceAddOneRecord(musicRecordModel);
+
+
+            return Ok(musicRecordModel);
+
+        }
+
     }
 }

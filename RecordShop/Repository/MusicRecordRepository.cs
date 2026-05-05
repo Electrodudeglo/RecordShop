@@ -1,4 +1,5 @@
 ﻿using Azure.Core.Serialization;
+using Microsoft.AspNetCore.Components.Forms;
 using RecordShop.Model;
 using System.Text.Json;
 
@@ -10,7 +11,6 @@ namespace RecordShop.Repository
         public IEnumerable<MusicRecordModel> GetAllRecords();
         public MusicRecordModel GetOneRecord(int id);
         public MusicRecordModel AddOneRecord(MusicRecordModel musicRecordModel);
-
         public string DeleteOneRecord(int id);
 
     }
@@ -53,6 +53,8 @@ namespace RecordShop.Repository
             getAllRecord.Add(musicRecordModel);
 
             var updateRecords = JsonSerializer.Serialize(getAllRecord, new JsonSerializerOptions { WriteIndented = true});
+
+            File.WriteAllText(filePath, updateRecords);
 
             return musicRecordModel;
 
