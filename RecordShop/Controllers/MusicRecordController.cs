@@ -5,7 +5,7 @@ namespace RecordShop.Controllers
 {
 
     [ApiController]
-    [Route("[Controller]")]
+    [Route("api/v1")]
     public class MusicRecordController : Controller
     {
         private readonly IMusicRecordService _musicRecordService;
@@ -15,15 +15,14 @@ namespace RecordShop.Controllers
             _musicRecordService = musicRecordService;
         }
 
-        [Route("/records")]
+        [HttpGet("records")]
         public IActionResult Index()
         {
-            var getData = _musicRecordService.ServiceGetAllRecords():
+            var getData = _musicRecordService.ServiceGetAllRecords();
             return Ok(getData);
         }
 
-        [Route("/records/{id}")]
-
+        [Route("records/{id}")]
         public IActionResult getOneRecord(int id)
         {
             var OneRecord = _musicRecordService.ServiceGetOneRecord(id);

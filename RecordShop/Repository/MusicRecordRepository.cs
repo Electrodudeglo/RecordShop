@@ -1,4 +1,6 @@
-﻿using RecordShop.Model;
+﻿using Azure.Core.Serialization;
+using RecordShop.Model;
+using System.Text.Json;
 
 namespace RecordShop.Repository
 {
@@ -12,12 +14,25 @@ namespace RecordShop.Repository
     {
         public IEnumerable<MusicRecordModel> GetAllRecords()
         {
-            return new List<MusicRecordModel>();
+
+            string filePath = Path.Combine("DummyData", "MusicRecordData.json");
+
+            string getAllData = File.ReadAllText(filePath);
+
+            var serialize = JsonSerializer.Deserialize<List<MusicRecordModel>>(getAllData, new JsonSerializerOptions { PropertyNameCaseInsensitive = true});
+
+            return serialize;
         }
 
         public MusicRecordModel GetOneRecord(int id)
         {
-            return new MusicRecordModel();
+            string filePath = Path.Combine("DummyData", "MusicRecordData.json");
+
+            string getAllData = File.ReadAllText(filePath);
+
+            var serialize = JsonSerializer.Deserialize<List<MusicRecordModel>>(getAllData, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            return serialize.FirstOrDefault(s => s.Id == id);
         }
 
     }
