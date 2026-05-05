@@ -9,6 +9,10 @@ namespace RecordShop.Repository
     {
         public IEnumerable<MusicRecordModel> GetAllRecords();
         public MusicRecordModel GetOneRecord(int id);
+        public MusicRecordModel AddOneRecord(MusicRecordModel musicRecordModel);
+
+        public string DeleteOneRecord(int id);
+
     }
     public class MusicRecordRepository : IMusicRecordRepo
     {
@@ -33,6 +37,33 @@ namespace RecordShop.Repository
             var serialize = JsonSerializer.Deserialize<List<MusicRecordModel>>(getAllData, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
             return serialize.FirstOrDefault(s => s.Id == id);
+        }
+
+        public MusicRecordModel AddOneRecord(MusicRecordModel musicRecordModel)
+        {
+
+            string filePath = Path.Combine("DummyData", "MusicRecordData.json");
+
+            string rawJson = File.ReadAllText(filePath);
+
+            var getAllRecord = JsonSerializer.Deserialize<List<MusicRecordModel>>(rawJson, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            musicRecordModel.Id = getAllRecord.Max(g => g.Id) + 1;
+
+            getAllRecord.Add(musicRecordModel);
+
+            var updateRecords = JsonSerializer.Serialize(getAllRecord, new JsonSerializerOptions { WriteIndented = true});
+
+            return musicRecordModel;
+
+        }
+
+        public string DeleteOneRecord(int id)
+        {
+
+
+            return "";
+
         }
 
     }

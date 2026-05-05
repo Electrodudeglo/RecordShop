@@ -8,6 +8,7 @@ namespace RecordShop.Services
     {
         public IEnumerable<MusicRecordModel> ServiceGetAllRecords();
         public MusicRecordModel ServiceGetOneRecord(int id);
+        public MusicRecordModel ServiceAddOneRecord(MusicRecordModel musicRecordModel);
     }
 
     public class MusicRecordService : IMusicRecordService
@@ -28,6 +29,11 @@ namespace RecordShop.Services
         public MusicRecordModel ServiceGetOneRecord(int id)
         {
             return _musicRecordRepo.GetOneRecord(id);
+        }
+
+        public MusicRecordModel ServiceAddOneRecord(MusicRecordModel musicRecordModel)
+        {
+            return _musicRecordRepo.AddOneRecord(musicRecordModel);
         }
 
     }
