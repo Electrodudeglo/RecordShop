@@ -15,11 +15,12 @@ namespace RecordShop.Model
 
         public MusicRecordModel(){ }
 
-        public MusicRecordModel(string recordTitle, string artists, string releaseYear)
+        public MusicRecordModel(string recordTitle, string artists, string releaseYear, string genre)
         {
             RecordTitle = recordTitle;
             Artists = artists;
             ReleaseYear = releaseYear;
+            Genre = genre;
         }
 
     }
