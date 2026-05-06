@@ -9,6 +9,8 @@ namespace RecordShop.Services
         public IEnumerable<MusicRecordModel> ServiceGetAllRecords();
         public MusicRecordModel ServiceGetOneRecord(int id);
         public MusicRecordModel ServiceAddOneRecord(MusicRecordModel musicRecordModel);
+
+        public bool ServiceDeleteOneRecord(int id);
     }
 
     public class MusicRecordService : IMusicRecordService
@@ -34,6 +36,11 @@ namespace RecordShop.Services
         public MusicRecordModel ServiceAddOneRecord(MusicRecordModel musicRecordModel)
         {
             return _musicRecordRepo.AddOneRecord(musicRecordModel);
+        }
+
+        public bool ServiceDeleteOneRecord(int id)
+        {
+            return _musicRecordRepo.DeleteOneRecord(id);
         }
 
     }

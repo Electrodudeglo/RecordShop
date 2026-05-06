@@ -9,13 +9,13 @@ namespace RecordShop.Model
         public string RecordTitle { get; set; }
         public string Artists { get; set; }
         [JsonPropertyName("release_year")]
-        public string ReleaseYear { get; set; }
+        public int ReleaseYear { get; set; }
         public string Genre { get; set; }
         public int Stock { get; set; }
 
         public MusicRecordModel(){ }
 
-        public MusicRecordModel(string recordTitle, string artists, string releaseYear, string genre)
+        public MusicRecordModel(string recordTitle, string artists, int releaseYear, string genre)
         {
             RecordTitle = recordTitle;
             Artists = artists;

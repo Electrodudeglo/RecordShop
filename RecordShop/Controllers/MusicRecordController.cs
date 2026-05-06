@@ -33,12 +33,19 @@ namespace RecordShop.Controllers
         [HttpPost("records")]
         public IActionResult AddOneRecord(MusicRecordModel musicRecordModel)
         {
-
             var postRecord = _musicRecordService.ServiceAddOneRecord(musicRecordModel);
-
-
             return Ok(musicRecordModel);
+        }
 
+        [HttpDelete("records/{id}")]
+        public IActionResult DeleteOneRecord(int id)
+        {
+            var deleted = _musicRecordService.ServiceDeleteOneRecord(id);
+
+            if (!deleted)
+                return NotFound(new { message = $"Record with id {id} not found" });
+
+            return NoContent(); // 204
         }
 
     }

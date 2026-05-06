@@ -1,5 +1,6 @@
 ﻿using Azure.Core.Serialization;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.EntityFrameworkCore;
 using RecordShop.Model;
 using System.Text.Json;
 
@@ -11,61 +12,48 @@ namespace RecordShop.Repository
         public IEnumerable<MusicRecordModel> GetAllRecords();
         public MusicRecordModel GetOneRecord(int id);
         public MusicRecordModel AddOneRecord(MusicRecordModel musicRecordModel);
-        public string DeleteOneRecord(int id);
+        public bool DeleteOneRecord(int id);
 
     }
     public class MusicRecordRepository : IMusicRecordRepo
     {
+
+        public readonly MyDbContext _dbContext;
+
+        public MusicRecordRepository(MyDbContext myDbContext)
+        {
+            _dbContext = myDbContext;
+        }
+
         public IEnumerable<MusicRecordModel> GetAllRecords()
         {
-
-            string filePath = Path.Combine("DummyData", "MusicRecordData.json");
-
-            string getAllData = File.ReadAllText(filePath);
-
-            var serialize = JsonSerializer.Deserialize<List<MusicRecordModel>>(getAllData, new JsonSerializerOptions { PropertyNameCaseInsensitive = true});
-
-            return serialize;
+            return _dbContext.MusicRecords.ToList();
         }
 
         public MusicRecordModel GetOneRecord(int id)
         {
-            string filePath = Path.Combine("DummyData", "MusicRecordData.json");
-
-            string getAllData = File.ReadAllText(filePath);
-
-            var serialize = JsonSerializer.Deserialize<List<MusicRecordModel>>(getAllData, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-
-            return serialize.FirstOrDefault(s => s.Id == id);
+            return _dbContext.MusicRecords.FirstOrDefault(m => m.Id == id);
         }
 
         public MusicRecordModel AddOneRecord(MusicRecordModel musicRecordModel)
         {
 
-            string filePath = Path.Combine("DummyData", "MusicRecordData.json");
-
-            string rawJson = File.ReadAllText(filePath);
-
-            var getAllRecord = JsonSerializer.Deserialize<List<MusicRecordModel>>(rawJson, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-
-            musicRecordModel.Id = getAllRecord.Max(g => g.Id) + 1;
-
-            getAllRecord.Add(musicRecordModel);
-
-            var updateRecords = JsonSerializer.Serialize(getAllRecord, new JsonSerializerOptions { WriteIndented = true});
-
-            File.WriteAllText(filePath, updateRecords);
+            _dbContext.MusicRecords.Add(musicRecordModel);
+            _dbContext.SaveChanges();
 
             return musicRecordModel;
 
         }
 
-        public string DeleteOneRecord(int id)
+        public bool DeleteOneRecord(int id)
         {
+            var record = _dbContext.MusicRecords.FirstOrDefault(r => r.Id == id);
+            if (record == null)
+                return false;
 
-
-            return "";
-
+            _dbContext.MusicRecords.Remove(record);
+            _dbContext.SaveChanges();
+            return true;
         }
 
     }
