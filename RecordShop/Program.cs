@@ -1,6 +1,7 @@
 
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using RecordShop.Middleware;
 using RecordShop.Repository;
 using RecordShop.Services;
@@ -19,14 +20,12 @@ namespace RecordShop
             builder.Services.AddScoped<IMusicRecordRepo,MusicRecordRepository>();
             builder.Services.AddScoped<IMusicRecordService, MusicRecordService>();
 
-            var envir = builder.Environment;
-            
-            if (envir.IsDevelopment())
-            {
-                var keepConnectionAlive = new SqliteConnection("DataSource=:memory:");
-                keepConnectionAlive.Open();
-                builder.Services.AddDbContext<MyDbContext>(options => options.UseSqlite(keepConnectionAlive));
-            }
+            var keepAliveConnection = new SqliteConnection("DataSource=:memory:");
+            keepAliveConnection.Open();
+
+            builder.Services.AddDbContext<MyDbContext>(options =>
+            options.UseSqlite(keepAliveConnection));
+
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -35,11 +34,11 @@ namespace RecordShop
             builder.Services.AddTransient<CustomLogger>();
 
             var app = builder.Build();
-
-            if (envir.IsDevelopment())
+  
+            using (var scope = app.Services.CreateScope())
             {
-                using var scope = app.Services.CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<MyDbContext>();
+                db.Database.EnsureCreated();
                 SeedData.Initialize(db);
             }
 

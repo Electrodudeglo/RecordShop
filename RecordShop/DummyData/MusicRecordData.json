@@ -1,50 +1,50 @@
 [
   {
-    "Id": 1,
+    "id": 1,
     "record_title": "In Times New Roman",
-    "Artists": "Queens of the Stone Age",
+    "artists": "Queens of the Stone Age",
     "release_year": "2023",
-    "Genre": "Rock",
-    "Stock": 5
+    "genre": "Rock",
+    "stock": 5
   },
   {
-    "Id": 2,
+    "id": 2,
     "record_title": "Villians",
-    "Artists": "Queens of the Stone Age",
+    "artists": "Queens of the Stone Age",
     "release_year": "2017",
-    "Genre": "Rock",
-    "Stock": 5
+    "genre": "Rock",
+    "stock": 5
   },
   {
-    "Id": 3,
+    "id": 3,
     "record_title": "Era Vulgaris",
-    "Artists": "Queens of the Stone Age",
+    "artists": "Queens of the Stone Age",
     "release_year": "2007",
-    "Genre": "Rock",
-    "Stock": 5
+    "genre": "Rock",
+    "stock": 5
   },
   {
-    "Id": 4,
+    "id": 4,
     "record_title": "Lullabies To Paralyze",
-    "Artists": "Queens of the Stone Age",
+    "artists": "Queens of the Stone Age",
     "release_year": "2005",
-    "Genre": "Rock",
-    "Stock": 5
+    "genre": "Rock",
+    "stock": 5
   },
   {
-    "Id": 5,
+    "id": 5,
     "record_title": "Songs For The Deaf",
-    "Artists": "Queens of the Stone Age",
+    "artists": "Queens of the Stone Age",
     "release_year": "2002",
-    "Genre": "Rock",
-    "Stock": 5
+    "genre": "Rock",
+    "stock": 5
   },
   {
-    "Id": 6,
+    "id": 6,
     "record_title": "Toxicity",
-    "Artists": "System Of a Down",
+    "artists": "System Of a Down",
     "release_year": "2001",
-    "Genre": "Rock",
-    "Stock": 5
+    "genre": "Rock",
+    "stock": 5
   }
 ]

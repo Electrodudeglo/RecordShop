@@ -10,7 +10,7 @@ namespace RecordShop
             if (myDbContext.MusicRecords.Any()) return;
             var filePath = Path.Combine("DummyData", "MusicRecordData.json");
             var json = File.ReadAllText(filePath);
-            var records = JsonSerializer.Deserialize<List<MusicRecordModel>>(json);
+            var records = JsonSerializer.Deserialize<List<MusicRecordModel>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true});
             myDbContext.MusicRecords.AddRange(records);
             myDbContext.SaveChanges();
         }
