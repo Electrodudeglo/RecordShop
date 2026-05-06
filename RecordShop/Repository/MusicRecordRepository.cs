@@ -17,7 +17,6 @@ namespace RecordShop.Repository
     }
     public class MusicRecordRepository : IMusicRecordRepo
     {
-
         public readonly MyDbContext _dbContext;
 
         public MusicRecordRepository(MyDbContext myDbContext)
@@ -37,12 +36,9 @@ namespace RecordShop.Repository
 
         public MusicRecordModel AddOneRecord(MusicRecordModel musicRecordModel)
         {
-
             _dbContext.MusicRecords.Add(musicRecordModel);
             _dbContext.SaveChanges();
-
             return musicRecordModel;
-
         }
 
         public bool DeleteOneRecord(int id)
