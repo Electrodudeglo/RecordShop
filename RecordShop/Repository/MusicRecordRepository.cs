@@ -12,6 +12,8 @@ namespace RecordShop.Repository
         public IEnumerable<MusicRecordModel> GetAllRecords();
         public MusicRecordModel GetOneRecord(int id);
         public MusicRecordModel AddOneRecord(MusicRecordModel musicRecordModel);
+
+        public MusicRecordModel UpdateOneRecord(MusicRecordModel musicRecord, int id);
         public bool DeleteOneRecord(int id);
 
     }
@@ -39,6 +41,22 @@ namespace RecordShop.Repository
             _dbContext.MusicRecords.Add(musicRecordModel);
             _dbContext.SaveChanges();
             return musicRecordModel;
+        }
+
+        public MusicRecordModel UpdateOneRecord(MusicRecordModel musicRecord, int id)
+        {
+
+            var record = _dbContext.MusicRecords.FirstOrDefault(r => r.Id == id);
+
+            record.RecordTitle = musicRecord.RecordTitle;
+            record.Artists = musicRecord.Artists;
+            record.ReleaseYear = musicRecord.ReleaseYear;
+            record.Stock = musicRecord.Stock;
+
+            _dbContext.SaveChanges();
+
+            return musicRecord;
+
         }
 
         public bool DeleteOneRecord(int id)

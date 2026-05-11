@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using RecordShop.Model;
 using RecordShop.Services;
 
@@ -34,7 +35,18 @@ namespace RecordShop.Controllers
         public IActionResult AddOneRecord(MusicRecordModel musicRecordModel)
         {
             var postRecord = _musicRecordService.ServiceAddOneRecord(musicRecordModel);
-            return Ok(musicRecordModel);
+            return CreatedAtAction(nameof(getOneRecord), new {id = postRecord.Id}, postRecord);
+        }
+
+        [HttpPut("records/{id}")]
+
+        public IActionResult UpdateOneRecord(MusicRecordModel musicRecord, ,int id)
+        {
+
+            var updateRecord = _musicRecordService.ServiceUpdateOneRecord(musicRecord,id);
+
+            return Ok(updateRecord);
+
         }
 
         [HttpDelete("records/{id}")]
