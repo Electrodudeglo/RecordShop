@@ -40,12 +40,12 @@ namespace RecordShop.Controllers
 
         [HttpPut("records/{id}")]
 
-        public IActionResult UpdateOneRecord(MusicRecordModel musicRecord, ,int id)
+        public IActionResult UpdateOneRecord(MusicRecordModel musicRecord, int id)
         {
 
             var updateRecord = _musicRecordService.ServiceUpdateOneRecord(musicRecord,id);
 
-            return Ok(updateRecord);
+            return CreatedAtAction(nameof(getOneRecord), new {id = updateRecord.Id}, updateRecord);
 
         }
 
