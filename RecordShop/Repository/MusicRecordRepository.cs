@@ -55,8 +55,7 @@ namespace RecordShop.Repository
 
             _dbContext.SaveChanges();
 
-            return musicRecord;
-
+            return record;
         }
 
         public bool DeleteOneRecord(int id)

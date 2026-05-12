@@ -44,5 +44,37 @@ public class MusicRecordService_Test
         Assert.That(actual, Is.EqualTo(album));
     }
 
-   
+    [Test]
+    public void ServiceUpdateOneRecord_Updates_Record_Returns_Updated_Data()
+    {
+        MusicRecordModel existingAlbum = new MusicRecordModel("In Your Honor", "Foo Fighters", "2005", "Rock");
+        MusicRecordModel updatedAlbum = new MusicRecordModel("Echoes, Silence, Patience & Grace", "Foo Fighters", "2007", "Rock");
+
+        _musicRecordRepoMoq.Setup(repo => repo.GetOneRecord(1)).Returns(existingAlbum);
+        _musicRecordRepoMoq.Setup(repo => repo.UpdateOneRecord(updatedAlbum, 1)).Returns(updatedAlbum);
+
+        MusicRecordModel actual = _musicRecordService.ServiceUpdateOneRecord(updatedAlbum, 1);
+
+        Assert.That(actual, Is.EqualTo(updatedAlbum));
+    }
+
+    [Test]
+    public void ServiceDeleteOneRecord_Deletes_Record_Returns_True()
+    {
+        _musicRecordRepoMoq.Setup(repo => repo.DeleteOneRecord(1)).Returns(true);
+
+        bool actual = _musicRecordService.ServiceDeleteOneRecord(1);
+
+        Assert.That(actual, Is.True);
+    }
+
+    [Test]
+    public void ServiceDeleteOneRecord_Record_Not_Found_Returns_False()
+    {
+        _musicRecordRepoMoq.Setup(repo => repo.DeleteOneRecord(99)).Returns(false);
+
+        bool actual = _musicRecordService.ServiceDeleteOneRecord(99);
+
+        Assert.That(actual, Is.False);
+    }
 }
