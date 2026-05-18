@@ -1,11 +1,14 @@
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens; 
 using RecordShop.Middleware;
 using RecordShop.Repository;
 using RecordShop.Services;
 using System.ComponentModel.Design;
+using System.Text;
 
 namespace RecordShop
 {
@@ -14,6 +17,8 @@ namespace RecordShop
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddTransient<AuthMiddleware>();
           
             // Add services to the container.
             builder.Services.AddScoped<IMusicRecordRepo,MusicRecordRepository>();
@@ -45,6 +50,25 @@ namespace RecordShop
             builder.Services.AddSwaggerGen();
             builder.Services.AddTransient<CustomLogger>();
 
+            var jwtSettings = builder.Configuration.GetSection("jwt");
+
+            builder.Services
+                .AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", options => {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = jwtSettings["Issuer"],
+                        ValidAudience = jwtSettings["Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(jwtSettings["Key"]))
+                    };
+                });
+
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
@@ -72,9 +96,16 @@ namespace RecordShop
                 app.UseSwaggerUI();
             }
 
-            app.UseMiddleware<CustomLogger>();
-            app.UseHttpsRedirection();
+            app.UseRouting();
+
+            app.UseAuthentication();
             app.UseAuthorization();
+
+
+            app.UseMiddleware<CustomLogger>();
+            app.UseMiddleware<AuthMiddleware>();
+
+            app.UseHttpsRedirection();
             app.MapControllers();
             app.Run();
         }
