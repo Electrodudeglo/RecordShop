@@ -14,18 +14,30 @@ namespace RecordShop
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
           
             // Add services to the container.
             builder.Services.AddScoped<IMusicRecordRepo,MusicRecordRepository>();
             builder.Services.AddScoped<IMusicRecordService, MusicRecordService>();
 
-            var keepAliveConnection = new SqliteConnection("DataSource=:memory:");
-            keepAliveConnection.Open();
+            Console.WriteLine("ENVIRONMENT: " + builder.Environment.EnvironmentName);
 
-            builder.Services.AddDbContext<MyDbContext>(options =>
-            options.UseSqlite(keepAliveConnection));
+            if (builder.Environment.IsDevelopment())
+            {
+                var keepAliveConnection = new SqliteConnection("DataSource=:memory:");
+                keepAliveConnection.Open();
 
+                builder.Services.AddDbContext<MyDbContext>(options =>
+                options.UseSqlite(keepAliveConnection));
+            }
+            else
+            {
+                var connectionString = builder.Configuration.GetConnectionString("RecordShopDb");
+                builder.Services.AddDbContext<MyDbContext>(options =>
+                {
+                    options.UseSqlServer(connectionString);
+                });
+
+            }
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -34,11 +46,22 @@ namespace RecordShop
             builder.Services.AddTransient<CustomLogger>();
 
             var app = builder.Build();
-  
-            using (var scope = app.Services.CreateScope())
+
+            if (app.Environment.IsDevelopment())
             {
+                using (var scope = app.Services.CreateScope())
+                {
+                    var db = scope.ServiceProvider.GetRequiredService<MyDbContext>();
+                    db.Database.EnsureCreated();
+                    SeedData.Initialize(db);
+                }
+            }
+            else
+            {
+                using var scope = app.Services.CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<MyDbContext>();
-                db.Database.EnsureCreated();
+
+                db.Database.Migrate();
                 SeedData.Initialize(db);
             }
 
