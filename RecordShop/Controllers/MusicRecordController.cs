@@ -8,7 +8,7 @@ namespace RecordShop.Controllers
 
     [ApiController]
     [Route("api/v1")]
-    public class MusicRecordController : Controller
+    public class MusicRecordController : ControllerBase
     {
         private readonly IMusicRecordService _musicRecordService;
 
@@ -42,25 +42,17 @@ namespace RecordShop.Controllers
 
         public IActionResult UpdateOneRecord(MusicRecordModel musicRecord, int id)
         {
-
             var updateRecord = _musicRecordService.ServiceUpdateOneRecord(musicRecord,id);
-
             return CreatedAtAction(nameof(getOneRecord), new {id = updateRecord.Id}, updateRecord);
-
         }
-
-        
 
         [HttpDelete("records/{id}")]
         public IActionResult DeleteOneRecord(int id)
         {
             var deleted = _musicRecordService.ServiceDeleteOneRecord(id);
-
             if (!deleted)
-                return NotFound(new { message = $"Record with id {id} not found" });
-
+            return NotFound(new { message = $"Record with id {id} not found" });
             return NoContent(); // 204
         }
-
     }
 }
