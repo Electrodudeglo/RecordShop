@@ -19,11 +19,11 @@ namespace RecordShop
             builder.Services.AddScoped<IMusicRecordRepo,MusicRecordRepository>();
             builder.Services.AddScoped<IMusicRecordService, MusicRecordService>();
 
-            Console.WriteLine("ENVIRONMENT: " + builder.Environment.EnvironmentName);
-
             if (builder.Environment.IsDevelopment())
             {
-                var keepAliveConnection = new SqliteConnection("DataSource=:memory:");
+                var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+                var keepAliveConnection = new SqliteConnection(connectionString);
                 keepAliveConnection.Open();
 
                 builder.Services.AddDbContext<MyDbContext>(options =>
@@ -31,7 +31,7 @@ namespace RecordShop
             }
             else
             {
-                var connectionString = builder.Configuration.GetConnectionString("RecordShopDb");
+                var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
                 builder.Services.AddDbContext<MyDbContext>(options =>
                 {
                     options.UseSqlServer(connectionString);
