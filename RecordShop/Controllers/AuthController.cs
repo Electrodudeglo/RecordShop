@@ -23,6 +23,7 @@ namespace RecordShop.Controllers
             _config = config;
         }
 
+        [HttpPost("token")]
         public IActionResult GenerateToken([FromBody] LoginModel login)
         {
             if (login.Username != "admin" || login.Password != "password123") return Unauthorized();

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using RecordShop.Model;
 using RecordShop.Services;
@@ -31,7 +32,9 @@ namespace RecordShop.Controllers
             return Ok(OneRecord);
         }
 
+
         [HttpPost("records")]
+        [Authorize(Roles = "Admin")]
         public IActionResult AddOneRecord(MusicRecordModel musicRecordModel)
         {
             var postRecord = _musicRecordService.ServiceAddOneRecord(musicRecordModel);
@@ -39,7 +42,7 @@ namespace RecordShop.Controllers
         }
 
         [HttpPut("records/{id}")]
-
+        [Authorize(Roles = "Admin")]
         public IActionResult UpdateOneRecord(MusicRecordModel musicRecord, int id)
         {
             var updateRecord = _musicRecordService.ServiceUpdateOneRecord(musicRecord,id);
@@ -47,6 +50,7 @@ namespace RecordShop.Controllers
         }
 
         [HttpDelete("records/{id}")]
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteOneRecord(int id)
         {
             var deleted = _musicRecordService.ServiceDeleteOneRecord(id);

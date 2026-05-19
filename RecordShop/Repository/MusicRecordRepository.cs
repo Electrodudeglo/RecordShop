@@ -38,6 +38,13 @@ namespace RecordShop.Repository
 
         public MusicRecordModel AddOneRecord(MusicRecordModel musicRecordModel)
         {
+
+            var getAllRecs = GetAllRecords().Max(g=>g.Id) + 1;
+
+            Console.WriteLine(getAllRecs);
+
+            musicRecordModel.Id = getAllRecs;
+
             _dbContext.MusicRecords.Add(musicRecordModel);
             _dbContext.SaveChanges();
             return musicRecordModel;
