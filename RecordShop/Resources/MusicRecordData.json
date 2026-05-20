@@ -1,50 +1,56 @@
 [
-  {
-    "id": 1,
-    "record_title": "In Times New Roman",
-    "artists": "Queens of the Stone Age",
-    "release_year": "2023",
-    "genre": "Rock",
-    "stock": 5
-  },
-  {
-    "id": 2,
-    "record_title": "Villians",
-    "artists": "Queens of the Stone Age",
-    "release_year": "2017",
-    "genre": "Rock",
-    "stock": 5
-  },
-  {
-    "id": 3,
-    "record_title": "Era Vulgaris",
-    "artists": "Queens of the Stone Age",
-    "release_year": "2007",
-    "genre": "Rock",
-    "stock": 5
-  },
-  {
-    "id": 4,
-    "record_title": "Lullabies To Paralyze",
-    "artists": "Queens of the Stone Age",
-    "release_year": "2005",
-    "genre": "Rock",
-    "stock": 5
-  },
-  {
-    "id": 5,
-    "record_title": "Songs For The Deaf",
-    "artists": "Queens of the Stone Age",
-    "release_year": "2002",
-    "genre": "Rock",
-    "stock": 5
-  },
-  {
-    "id": 6,
-    "record_title": "Toxicity",
-    "artists": "System Of a Down",
-    "release_year": "2001",
-    "genre": "Rock",
-    "stock": 5
-  }
+    {
+        "id": 1,
+        "record_title": "In Times New Roman",
+        "artists": "Queens of the Stone Age",
+        "release_year": "2023",
+        "genre": "Rock",
+        "stock": 5,
+        "cover": "https://upload.wikimedia.org/wikipedia/en/3/3a/Queens_of_the_Stone_Age_-_In_Times_New_Roman...png"
+    },
+    {
+        "id": 2,
+        "record_title": "Villians",
+        "artists": "Queens of the Stone Age",
+        "release_year": "2017",
+        "genre": "Rock",
+        "stock": 5,
+        "cover": "https://upload.wikimedia.org/wikipedia/en/4/4a/Queens_of_the_Stone_Age_-_Villains.png"
+    },
+    {
+        "id": 3,
+        "record_title": "Era Vulgaris",
+        "artists": "Queens of the Stone Age",
+        "release_year": "2007",
+        "genre": "Rock",
+        "stock": 5,
+        "cover": "https://upload.wikimedia.org/wikipedia/en/4/4d/QOTSA_-_Era_Vulgaris.png"
+    },
+    {
+        "id": 4,
+        "record_title": "Lullabies To Paralyze",
+        "artists": "Queens of the Stone Age",
+        "release_year": "2005",
+        "genre": "Rock",
+        "stock": 5,
+        "cover": "https://upload.wikimedia.org/wikipedia/en/0/0a/QOTSA_-_Lullabies_to_Paralyze.png"
+    },
+    {
+        "id": 5,
+        "record_title": "Songs For The Deaf",
+        "artists": "Queens of the Stone Age",
+        "release_year": "2002",
+        "genre": "Rock",
+        "stock": 5,
+        "cover": "https://upload.wikimedia.org/wikipedia/en/1/1c/Queens_of_the_Stone_Age_-_Songs_for_the_Deaf.png"
+    },
+    {
+        "id": 6,
+        "record_title": "Toxicity",
+        "artists": "System Of a Down",
+        "release_year": "2001",
+        "genre": "Rock",
+        "stock": 5,
+        "cover": "https://upload.wikimedia.org/wikipedia/en/6/64/SystemofaDownToxicityalbumcover.jpg"
+    }
 ]
