@@ -1,56 +1,92 @@
 [
     {
         "id": 1,
-        "record_title": "In Times New Roman",
-        "artists": "Queens of the Stone Age",
-        "release_year": "2023",
-        "genre": "Rock",
-        "stock": 5,
-        "cover": "https://upload.wikimedia.org/wikipedia/en/3/3a/Queens_of_the_Stone_Age_-_In_Times_New_Roman...png"
+        "record_title": "The Golden Age Of Grotesque",
+        "artists": "Marilyn Manson",
+        "release_year": "2003",
+        "genre": "Pop",
+        "stock": 1186,
+        "cover": "https://cdn-images.dzcdn.net/images/cover/675937ba02e12987929fde7e51e77117/500x500-000000-80-0-0.jpg"
     },
     {
         "id": 2,
-        "record_title": "Villians",
-        "artists": "Queens of the Stone Age",
-        "release_year": "2017",
+        "record_title": "Toxicity",
+        "artists": "System of A Down",
+        "release_year": "2001",
         "genre": "Rock",
-        "stock": 5,
-        "cover": "https://upload.wikimedia.org/wikipedia/en/4/4a/Queens_of_the_Stone_Age_-_Villains.png"
+        "stock": 182064,
+        "cover": "https://cdn-images.dzcdn.net/images/cover/6baa3ad626e859f67bbddae6528fd949/500x500-000000-80-0-0.jpg"
     },
     {
         "id": 3,
-        "record_title": "Era Vulgaris",
-        "artists": "Queens of the Stone Age",
-        "release_year": "2007",
+        "record_title": "Lullabies To Paralyze",
+        "artists": "Queens Of The Stone Age",
+        "release_year": "2005",
         "genre": "Rock",
-        "stock": 5,
-        "cover": "https://upload.wikimedia.org/wikipedia/en/4/4d/QOTSA_-_Era_Vulgaris.png"
+        "stock": 6665,
+        "cover": "https://cdn-images.dzcdn.net/images/cover/07fba84d765af3d563f1a2b9e420d610/500x500-000000-80-0-0.jpg"
     },
     {
         "id": 4,
-        "record_title": "Lullabies To Paralyze",
-        "artists": "Queens of the Stone Age",
-        "release_year": "2005",
+        "record_title": "Villains",
+        "artists": "Queens Of The Stone Age",
+        "release_year": "2017",
         "genre": "Rock",
-        "stock": 5,
-        "cover": "https://upload.wikimedia.org/wikipedia/en/0/0a/QOTSA_-_Lullabies_to_Paralyze.png"
+        "stock": 57684,
+        "cover": "https://cdn-images.dzcdn.net/images/cover/44e66ca550dcc3736e2a4157216cd47a/500x500-000000-80-0-0.jpg"
     },
     {
         "id": 5,
-        "record_title": "Songs For The Deaf",
-        "artists": "Queens of the Stone Age",
-        "release_year": "2002",
-        "genre": "Rock",
-        "stock": 5,
-        "cover": "https://upload.wikimedia.org/wikipedia/en/1/1c/Queens_of_the_Stone_Age_-_Songs_for_the_Deaf.png"
+        "record_title": "In Times New Roman...",
+        "artists": "Queens Of The Stone Age",
+        "release_year": "2023",
+        "genre": "Alternative",
+        "stock": 16490,
+        "cover": "https://cdn-images.dzcdn.net/images/cover/accc9876bed83ca81edc3e41807a8623/500x500-000000-80-0-0.jpg"
     },
     {
         "id": 6,
-        "record_title": "Toxicity",
-        "artists": "System Of a Down",
-        "release_year": "2001",
+        "record_title": "Era Vulgaris (International iTunes Version)",
+        "artists": "Queens Of The Stone Age",
+        "release_year": "2007",
         "genre": "Rock",
-        "stock": 5,
-        "cover": "https://upload.wikimedia.org/wikipedia/en/6/64/SystemofaDownToxicityalbumcover.jpg"
+        "stock": 31409,
+        "cover": "https://cdn-images.dzcdn.net/images/cover/66f88fc9b5aba33cae55bdefe540151b/500x500-000000-80-0-0.jpg"
+    },
+    {
+        "id": 7,
+        "record_title": "Songs For The Deaf",
+        "artists": "Queens Of The Stone Age",
+        "release_year": "2002",
+        "genre": "Pop",
+        "stock": 95242,
+        "cover": "https://cdn-images.dzcdn.net/images/cover/ace9490e8fe0c7468b102aa5145fb766/500x500-000000-80-0-0.jpg"
+    },
+    {
+        "id": 8,
+        "record_title": "Queens of the Stone Age",
+        "artists": "Queens Of The Stone Age",
+        "release_year": "2011",
+        "genre": "Rock",
+        "stock": 8716,
+        "cover": "https://cdn-images.dzcdn.net/images/cover/ada084deb04ef9fe585e4efec0bb2d82/500x500-000000-80-0-0.jpg"
+    },
+    {
+        "id": 9,
+        "record_title": "Iowa (10th Anniversary Edition)",
+        "artists": "Slipknot",
+        "release_year": "2005",
+        "genre": "Metal",
+        "stock": 88141,
+        "cover": "https://cdn-images.dzcdn.net/images/cover/bd6de90f61e585e94dca0b70a17580c8/500x500-000000-80-0-0.jpg"
+    },
+    {
+        "id": 10,
+        "record_title": "Vol. 3: The Subliminal Verses (Special Edition)",
+        "artists": "Slipknot",
+        "release_year": "2004",
+        "genre": "Metal",
+        "stock": 122723,
+        "cover": "https://cdn-images.dzcdn.net/images/cover/35b093d22fe1539003d5d18dd8f309eb/500x500-000000-80-0-0.jpg"
     }
 ]
