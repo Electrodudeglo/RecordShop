@@ -39,7 +39,7 @@ namespace RecordShop
                 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
                 builder.Services.AddDbContext<MyDbContext>(options =>
                 {
-                    options.UseSqlServer(connectionString);
+                    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
                 });
 
             }
