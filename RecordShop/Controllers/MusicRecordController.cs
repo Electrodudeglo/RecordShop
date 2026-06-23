@@ -25,7 +25,7 @@ namespace RecordShop.Controllers
             return Ok(getData);
         }
 
-        [Route("records/{id}")]
+        [HttpGet("records/{id}")]
         public IActionResult getOneRecord(int id)
         {
             var OneRecord = _musicRecordService.ServiceGetOneRecord(id);
