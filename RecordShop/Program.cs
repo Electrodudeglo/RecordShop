@@ -9,12 +9,13 @@ using RecordShop.Repository;
 using RecordShop.Services;
 using System.ComponentModel.Design;
 using System.Text;
+using RecordShop.Extensions;
 
 namespace RecordShop
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -70,6 +71,8 @@ namespace RecordShop
                 });
 
             var app = builder.Build();
+
+            await app.EnsureDatabaseConnectionAsync();
 
             if (app.Environment.IsDevelopment())
             {
