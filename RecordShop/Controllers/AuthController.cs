@@ -26,7 +26,7 @@ namespace RecordShop.Controllers
         [HttpPost("token")]
         public IActionResult GenerateToken([FromBody] LoginModel login)
         {
-            if (login.Username != "admin" || login.Password != "password123") return Unauthorized();
+            if (login.Username != "mohamed@waveform.com" || login.Password != "password123") return Unauthorized();
 
             var claims = new[]
             {
