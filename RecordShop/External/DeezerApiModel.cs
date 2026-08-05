@@ -57,8 +57,7 @@ namespace RecordShop.External
         public string Cover_big { get; set; } = String.Empty;
         public string Cover_xl { get; set; } = String.Empty;
         public int Fans { get; set; }
-        public DeezerResultStatusEnum ResultStatus { get; set; }
-
+       
     }
 
     public class DeezerGenreContainer
@@ -83,6 +82,5 @@ namespace RecordShop.External
         public string Message { get; set; } = "";
         public int Code { get; set; }
     }
-
 
 }
