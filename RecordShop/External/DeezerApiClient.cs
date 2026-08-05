@@ -10,6 +10,7 @@ namespace RecordShop.External
         public DeezerApiClient(HttpClient http)
         {
             _http = http;
+            //_http.BaseAddress = new Uri("https://api.deezer.com/");
         }
 
 
@@ -20,6 +21,7 @@ namespace RecordShop.External
                 var query = HttpUtility.UrlDecode($"{title} {artist}");
                 var searchUrl = $"search/album?q={query}&limit=1";
 
+                //fuzzy search section
                 var response = await _http.GetAsync(searchUrl);
 
                 if(!response.IsSuccessStatusCode)
@@ -43,11 +45,46 @@ namespace RecordShop.External
                     };
                 }
 
+                //actual album search
+                var albumId = searchResults.Data[0].Id;
+                var albumResponse = await _http.GetAsync($"album/{albumId}");
+
+                if(!albumResponse.IsSuccessStatusCode)
+                {
+                    return new DeezerAlbumResult
+                    {
+                        ResultStatus = MapStatus(albumResponse.StatusCode),
+                        Album = null
+                    };
+                }
+
+                var albumDetails = albumResponse.Content.ReadFromJsonAsync<DeezerAlbumDetails>();
+
+                return new DeezerAlbumResult
+                {
+                    ResultStatus = DeezerResultStatusEnum.Success,
+                    Album = albumDetails.Result
+                };
+
 
             }
-            catch
+            catch(HttpRequestException)
             {
-            }           
+                return new DeezerAlbumResult
+                {
+                    ResultStatus = DeezerResultStatusEnum.NetworkError,
+                    Album = null
+                };
+            }
+
+            catch (Exception)
+            {
+                return new DeezerAlbumResult
+                {
+                    ResultStatus = DeezerResultStatusEnum.InvalidJson,
+                    Album = null
+                };
+            }     
         }
 
         private DeezerResultStatusEnum MapStatus(HttpStatusCode code)
