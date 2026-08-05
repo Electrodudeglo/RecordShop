@@ -13,7 +13,7 @@ namespace RecordShop.External
         }
 
 
-        public async Task<DeezerApiResponse> FindAlbumAsync(string title, string artist)
+        public async Task<DeezerAlbumResult> FindAlbumAsync(string title, string artist)
         {
             try 
             {
@@ -25,9 +25,9 @@ namespace RecordShop.External
                 if(!response.IsSuccessStatusCode)
                 {
 
-                    return new DeezerApiResponse
+                    return new DeezerAlbumResult
                     {
-                        Status = MapStatus(response.StatusCode),
+                        ResultStatus = MapStatus(response.StatusCode),
                         Album = null
                     };
                 }
@@ -36,9 +36,9 @@ namespace RecordShop.External
 
                 if (searchResults?.Data == null || searchResults.Data.Count == 0)
                 {
-                    return new DeezerApiResponse
+                    return new DeezerAlbumResult
                     {
-                        Status = DeezerResultStatusEnum.NotFound,
+                        ResultStatus = DeezerResultStatusEnum.NotFound,
                         Album = null
                     };
                 }
