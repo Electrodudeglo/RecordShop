@@ -1,9 +1,9 @@
-﻿using System.Web;
+﻿using System.Text.Json.Serialization;
+using System.Web;
 namespace RecordShop.External
 {
     public class DeezerApiModel
     {
-
     }
 
     public enum DeezerResultStatusEnum
@@ -15,30 +15,74 @@ namespace RecordShop.External
     InvalidJson
 }
 
-public class DeezerApiResponse
-{
-    public DeezerResultStatusEnum Status { get; set; }
-    public DeezerAlbumDetails? Album { get; set; }
-}
+    public class DeezerAlbumResult
+    {
+        public DeezerResultStatusEnum ResultStatus { get; set; }
+        public DeezerAlbumDetails? Album { get; set; }
+    }
 
-public class DeezerSearchResult
-{
-    public List<DeezerAlbumSummary> Data { get; set; } = new();
-}
+    public class DeezerSearchResult
+    {
+        public List<DeezerAlbumSearchItem> Data { get; set; } = new();
 
-public class DeezerAlbumSummary
-{
-    public int Id { get; set; }
+    }
+
+    public class DeezerAlbumSearchItem
+    {
+        public long Id { get; set; }
         public string Title { get; set; } = String.Empty;
-}
-
-public class DeezerAlbumDetails
-{
-    public int Id { get; set; }
-        public string Title { get; set; } = String.Empty;
+        public DeezerArtist Artist { get; set; } = new();
         public string Cover { get; set; } = String.Empty;
-        public string Artist { get; set; } = String.Empty;
-}
+        public string Cover_Small { get; set; } = String.Empty;
+        public string Cover_Medium { get; set; } = String.Empty;
+        public string Cover_Big { get; set; } = String.Empty;
+        public string Cover_Xl { get; set; } = String.Empty;
+    }
+
+    public class DeezerArtist
+    {
+        public string Name { get; set; } = String.Empty;
+    }
+
+    public class DeezerAlbumDetails
+    {
+        public long Id { get; set; }
+        public string Title { get; set; } = String.Empty;
+        public DeezerArtist Artist { get; set; } = new();
+        public string Release_Date { get; set; } = String.Empty;
+        public DeezerGenreContainer Genres { get; set; } = new();
+        public string Cover { get; set; } = String.Empty;
+        public string Cover_small { get; set; } = String.Empty;
+        public string Cover_medium { get; set; } = String.Empty;
+        public string Cover_big { get; set; } = String.Empty;
+        public string Cover_xl { get; set; } = String.Empty;
+        public int Fans { get; set; }
+        public DeezerResultStatusEnum ResultStatus { get; set; }
+
+    }
+
+    public class DeezerGenreContainer
+    {
+        public List<DeezerGenre> Data { get; set; } = new();
+    }
+
+    public class DeezerGenre
+    {
+        public string Name { get; set; } = String.Empty;
+    }
+
+    public class DeezerErrorResponse
+    {
+        [JsonPropertyName("error")]
+        public DeezerErrorDetail? Error { get; set; }
+    }
+
+    public class DeezerErrorDetail
+    {
+        public string Type { get; set; } = "";
+        public string Message { get; set; } = "";
+        public int Code { get; set; }
+    }
 
 
 }
