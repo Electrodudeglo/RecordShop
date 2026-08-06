@@ -13,7 +13,6 @@ namespace RecordShop.External
             //_http.BaseAddress = new Uri("https://api.deezer.com/");
         }
 
-
         public async Task<DeezerAlbumResult> FindAlbumAsync(string title, string artist)
         {
             try 
@@ -65,7 +64,6 @@ namespace RecordShop.External
                     ResultStatus = DeezerResultStatusEnum.Success,
                     Album = albumDetails.Result
                 };
-
 
             }
             catch(HttpRequestException)
