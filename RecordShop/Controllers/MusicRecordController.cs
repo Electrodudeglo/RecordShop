@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using RecordShop.External;
 using RecordShop.Model;
 using RecordShop.Services;
 
@@ -32,6 +33,13 @@ namespace RecordShop.Controllers
             return Ok(OneRecord);
         }
 
+        [HttpPost("records/check-deezer")]
+        [Authorize(Roles ="Admin")]
+        public async Task<IActionResult> CheckDeezerApi(DeezerCheckRequest request)
+        {
+            var postToDeezer = await _musicRecordService.CheckDeezer(request.AlbumName, request.ArtistName);
+            return Ok(postToDeezer);    
+        }
 
         [HttpPost("records")]
         [Authorize(Roles = "Admin")]
