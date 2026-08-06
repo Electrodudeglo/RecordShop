@@ -1,4 +1,5 @@
-﻿using RecordShop.Model;
+﻿using RecordShop.External;
+using RecordShop.Model;
 using RecordShop.Repository;
 
 namespace RecordShop.Services
@@ -8,6 +9,7 @@ namespace RecordShop.Services
     {
         public IEnumerable<MusicRecordModel> ServiceGetAllRecords();
         public MusicRecordModel ServiceGetOneRecord(int id);
+        public Task<DeezerAlbumResult> CheckDeezer(string albumName, string artistName);
         public MusicRecordModel ServiceAddOneRecord(MusicRecordModel musicRecordModel);
         public MusicRecordModel ServiceUpdateOneRecord(MusicRecordModel musicRecord, int id);
         public bool ServiceDeleteOneRecord(int id);
@@ -17,10 +19,12 @@ namespace RecordShop.Services
     {
 
         private readonly IMusicRecordRepo _musicRecordRepo;
+        private readonly DeezerApiClient _deezer;
 
-        public MusicRecordService(IMusicRecordRepo musicRecordRepo)
+        public MusicRecordService(IMusicRecordRepo musicRecordRepo,DeezerApiClient deezerApiClient)
         {
             _musicRecordRepo = musicRecordRepo;
+            _deezer = deezerApiClient;
         }
 
         public IEnumerable<MusicRecordModel> ServiceGetAllRecords()
@@ -31,6 +35,11 @@ namespace RecordShop.Services
         public MusicRecordModel ServiceGetOneRecord(int id)
         {
             return _musicRecordRepo.GetOneRecord(id);
+        }
+
+        public Task<DeezerAlbumResult> CheckDeezer(string albumName, string artistName)
+        {
+            return _deezer.FindAlbumAsync(albumName, artistName);
         }
 
         public MusicRecordModel ServiceAddOneRecord(MusicRecordModel musicRecordModel)
