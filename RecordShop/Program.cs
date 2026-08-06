@@ -10,6 +10,7 @@ using RecordShop.Services;
 using System.ComponentModel.Design;
 using System.Text;
 using RecordShop.Extensions;
+using RecordShop.External;
 
 namespace RecordShop
 {
@@ -42,6 +43,8 @@ namespace RecordShop
                 {
                     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
                 });
+
+                builder.Services.AddHttpClient<DeezerApiClient>(client => client.BaseAddress = new Uri("https://api.deezer.com/"));
 
             }
 
