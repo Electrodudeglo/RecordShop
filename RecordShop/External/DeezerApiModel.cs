@@ -85,6 +85,12 @@ namespace RecordShop.External
 
     public class DeezerCheckRequest
     {
+        public DeezerCheckRequest() { }
+        public DeezerCheckRequest(string albumName, string artistName)
+        {
+            AlbumName = albumName;
+            ArtistName = artistName;
+        }     
         public string AlbumName { get; set; } = String.Empty;
         public string ArtistName { get; set; } = String.Empty;
     }

@@ -9,7 +9,7 @@ namespace RecordShop.Services
     {
         public IEnumerable<MusicRecordModel> ServiceGetAllRecords();
         public MusicRecordModel ServiceGetOneRecord(int id);
-        public Task<DeezerAlbumResult> CheckDeezer(string albumName, string artistName);
+        public Task<DeezerAlbumResult> CheckDeezer(DeezerCheckRequest request);
         public MusicRecordModel ServiceAddOneRecord(MusicRecordModel musicRecordModel);
         public MusicRecordModel ServiceUpdateOneRecord(MusicRecordModel musicRecord, int id);
         public bool ServiceDeleteOneRecord(int id);
