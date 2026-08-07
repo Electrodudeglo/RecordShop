@@ -25,6 +25,8 @@ namespace RecordShop
             // Add services to the container.
             builder.Services.AddScoped<IMusicRecordRepo,MusicRecordRepository>();
             builder.Services.AddScoped<IMusicRecordService, MusicRecordService>();
+            builder.Services.AddHttpClient<IDeezerApiClient, DeezerApiClient>();
+
 
             if (builder.Environment.IsDevelopment())
             {
@@ -43,9 +45,6 @@ namespace RecordShop
                 {
                     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
                 });
-
-                builder.Services.AddHttpClient<DeezerApiClient>(client => client.BaseAddress = new Uri("https://api.deezer.com/"));
-
             }
 
             builder.Services.AddControllers();
