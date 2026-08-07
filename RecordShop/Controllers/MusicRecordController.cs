@@ -37,7 +37,7 @@ namespace RecordShop.Controllers
         [Authorize(Roles ="Admin")]
         public async Task<IActionResult> CheckDeezerApi(DeezerCheckRequest request)
         {
-            var postToDeezer = await _musicRecordService.CheckDeezer(request.AlbumName, request.ArtistName);
+            var postToDeezer = await _musicRecordService.CheckDeezer(request);
             return Ok(postToDeezer);    
         }
 
