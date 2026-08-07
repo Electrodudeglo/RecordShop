@@ -68,7 +68,7 @@ namespace RecordShop_Test
         }
 
         [Test]
-        public void CheckDeezerApi_Returns_Ok_With_Result()
+        public async Task CheckDeezerApi_Returns_Ok_With_Result()
         {
 
             //Arrange
@@ -102,7 +102,7 @@ namespace RecordShop_Test
             _serviceMock.Setup(s=>s.CheckDeezer(deezerRequest)).ReturnsAsync(deezerResult);
 
             //Act
-            var result = _controller.CheckDeezerApi(deezerRequest).AsyncState as OkObjectResult;
+            var result = await _controller.CheckDeezerApi(deezerRequest) as OkObjectResult;
 
             //Assert
             Assert.IsNotNull(result);
