@@ -99,7 +99,7 @@ namespace RecordShop_Test
                 Album = albumDetails,
                 ResultStatus = DeezerResultStatusEnum.Success
             };          
-            _serviceMock.Setup(s=>s.CheckDeezer("AlbumName","ArtistName")).ReturnsAsync(deezerResult);
+            _serviceMock.Setup(s=>s.CheckDeezer(deezerRequest)).ReturnsAsync(deezerResult);
 
             //Act
             var result = _controller.CheckDeezerApi(deezerRequest).AsyncState as OkObjectResult;
