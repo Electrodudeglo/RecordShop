@@ -3,18 +3,21 @@ using Moq;
 using RecordShop.Model;
 using RecordShop.Repository;
 using RecordShop.Services;
+using RecordShop.External;
 namespace RecordShop_Test;
 
 public class MusicRecordService_Test
 {
     private MusicRecordService _musicRecordService;
     private Mock<IMusicRecordRepo> _musicRecordRepoMoq;
+    private Mock<IDeezerApiCLient> _deezerClientMoq;
 
     [SetUp]
     public void Setup()
     {
         _musicRecordRepoMoq = new Mock<IMusicRecordRepo>();
-        _musicRecordService = new MusicRecordService(_musicRecordRepoMoq.Object);
+        _deezerClientMoq = new Mock<IDeezerApiCLient>();
+        _musicRecordService = new MusicRecordService(_musicRecordRepoMoq.Object, _deezerClientMoq.Object);
     }
 
     [Test]
@@ -34,6 +37,7 @@ public class MusicRecordService_Test
         MusicRecordModel actual = _musicRecordService.ServiceGetOneRecord(1);
         Assert.That(actual, Is.EqualTo(album));
     }
+
 
     [Test]
     public void ServiceAddOneRecord_Add_Album_Returns_Created_Data()
