@@ -10,13 +10,13 @@ public class MusicRecordService_Test
 {
     private MusicRecordService _musicRecordService;
     private Mock<IMusicRecordRepo> _musicRecordRepoMoq;
-    private Mock<IDeezerApiCLient> _deezerClientMoq;
+    private Mock<IDeezerApiClient> _deezerClientMoq;
 
     [SetUp]
     public void Setup()
     {
         _musicRecordRepoMoq = new Mock<IMusicRecordRepo>();
-        _deezerClientMoq = new Mock<IDeezerApiCLient>();
+        _deezerClientMoq = new Mock<IDeezerApiClient>();
         _musicRecordService = new MusicRecordService(_musicRecordRepoMoq.Object, _deezerClientMoq.Object);
     }
 
