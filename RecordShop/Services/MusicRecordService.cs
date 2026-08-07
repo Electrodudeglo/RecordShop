@@ -19,9 +19,9 @@ namespace RecordShop.Services
     {
 
         private readonly IMusicRecordRepo _musicRecordRepo;
-        private readonly DeezerApiClient _deezer;
+        private readonly IDeezerApiCLient _deezer;
 
-        public MusicRecordService(IMusicRecordRepo musicRecordRepo,DeezerApiClient deezerApiClient)
+        public MusicRecordService(IMusicRecordRepo musicRecordRepo,IDeezerApiCLient deezerApiClient)
         {
             _musicRecordRepo = musicRecordRepo;
             _deezer = deezerApiClient;
@@ -37,9 +37,9 @@ namespace RecordShop.Services
             return _musicRecordRepo.GetOneRecord(id);
         }
 
-        public Task<DeezerAlbumResult> CheckDeezer(string albumName, string artistName)
+        public Task<DeezerAlbumResult> CheckDeezer(DeezerCheckRequest request)
         {
-            return _deezer.FindAlbumAsync(albumName, artistName);
+            return _deezer.FindAlbumAsync(request);
         }
 
         public MusicRecordModel ServiceAddOneRecord(MusicRecordModel musicRecordModel)
