@@ -3,25 +3,27 @@ using System.Web;
 
 namespace RecordShop.External
 {
-    public interface IDeezerApiCLient
+    public interface IDeezerApiClient
     {
-        public Task<DeezerAlbumResult> FindAlbumAsync(DeezerCheckRequest request);
+        Task<DeezerAlbumResult> FindAlbumAsync(string albumName, string artistName);
     }
 
-    public class DeezerApiClient
+    public class DeezerApiClient : IDeezerApiClient
     {
         private readonly HttpClient _http;
+      
 
         public DeezerApiClient(HttpClient http)
         {
             _http = http;
+            _http.BaseAddress = new Uri("https://api.deezer.com/");
         }
 
-        public async Task<DeezerAlbumResult> FindAlbumAsync(DeezerCheckRequest request)
+        public async Task<DeezerAlbumResult> FindAlbumAsync(string albumName,string artistName)
         {
             try 
             {
-                var query = HttpUtility.UrlDecode($"{request.AlbumName} {request.ArtistName}");
+                var query = HttpUtility.UrlEncode($"{albumName} {artistName}");
                 var searchUrl = $"search/album?q={query}&limit=1";
 
                 //fuzzy search section
@@ -61,12 +63,12 @@ namespace RecordShop.External
                     };
                 }
 
-                var albumDetails = albumResponse.Content.ReadFromJsonAsync<DeezerAlbumDetails>();
+                var albumDetails = await albumResponse.Content.ReadFromJsonAsync<DeezerAlbumDetails>();
 
                 return new DeezerAlbumResult
                 {
                     ResultStatus = DeezerResultStatusEnum.Success,
-                    Album = albumDetails.Result
+                    Album = albumDetails
                 };
 
             }
