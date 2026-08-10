@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.EntityFrameworkCore;
 using RecordShop.Model;
+using System.Runtime.CompilerServices;
 
 namespace RecordShop.Repository
 {
@@ -10,8 +11,7 @@ namespace RecordShop.Repository
     {
         public IEnumerable<MusicRecordModel> GetAllRecords();
         public MusicRecordModel GetOneRecord(int id);
-
-        public bool AlbumExists(string artistName, string albumName);
+        public Task<bool> AlbumExists(string artistName, string albumName);
         public MusicRecordModel AddOneRecord(MusicRecordModel musicRecordModel);
         public MusicRecordModel UpdateOneRecord(MusicRecordModel musicRecord, int id);
         public bool DeleteOneRecord(int id);
@@ -35,11 +35,10 @@ namespace RecordShop.Repository
         {
             return _dbContext.MusicRecords.FirstOrDefault(m => m.Id == id);
         }
-
-        // This method is directly connected to DeezerApiClient
-        public bool AlbumExists(string artistName, string albumName)
+ 
+        public async Task<bool> AlbumExists(string artistName, string albumName)
         {
-            return _dbContext.MusicRecords.Any(d => d.Artists == artistName && d.RecordTitle == albumName);    
+            return await _dbContext.MusicRecords.AnyAsync(d => d.Artists == artistName && d.RecordTitle == albumName);    
         }
 
         public MusicRecordModel AddOneRecord(MusicRecordModel musicRecordModel)
