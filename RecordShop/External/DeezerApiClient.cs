@@ -21,6 +21,7 @@ namespace RecordShop.External
 
         public async Task<DeezerAlbumResult> FindAlbumAsync(string albumName,string artistName)
         {
+           
             try 
             {
                 var query = HttpUtility.UrlEncode($"{albumName} {artistName}");
@@ -31,7 +32,6 @@ namespace RecordShop.External
 
                 if(!response.IsSuccessStatusCode)
                 {
-
                     return new DeezerAlbumResult
                     {
                         ResultStatus = MapStatus(response.StatusCode),
@@ -50,7 +50,7 @@ namespace RecordShop.External
                     };
                 }
 
-                //actual album search
+                //actual album search by ID
                 var albumId = searchResults.Data[0].Id;
                 var albumResponse = await _http.GetAsync($"album/{albumId}");
 
@@ -65,6 +65,7 @@ namespace RecordShop.External
 
                 var albumDetails = await albumResponse.Content.ReadFromJsonAsync<DeezerAlbumDetails>();
 
+                
                 return new DeezerAlbumResult
                 {
                     ResultStatus = DeezerResultStatusEnum.Success,

@@ -12,7 +12,8 @@ namespace RecordShop.External
     NotFound,
     ServerError,
     NetworkError,
-    InvalidJson
+    InvalidJson,
+    AlreadyExists
 }
 
     public class DeezerAlbumResult
