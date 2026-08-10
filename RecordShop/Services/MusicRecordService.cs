@@ -37,9 +37,36 @@ namespace RecordShop.Services
             return _musicRecordRepo.GetOneRecord(id);
         }
 
-        public Task<DeezerAlbumResult> CheckDeezer(DeezerCheckRequest request)
-        {
-            return _deezer.FindAlbumAsync(request.AlbumName, request.ArtistName);
+        public async Task<DeezerAlbumResult> CheckDeezer(DeezerCheckRequest request)
+        {       
+            var deezerResult = await _deezer.FindAlbumAsync(request.AlbumName, request.ArtistName);
+
+            if(deezerResult.ResultStatus != DeezerResultStatusEnum.Success)
+            {
+                return new DeezerAlbumResult
+                {
+                    ResultStatus = deezerResult.ResultStatus,
+                    Album = null
+                };
+            }
+
+            var album = deezerResult.Album;
+            var exists = await _musicRecordRepo.AlbumExists(album.Artist.Name, album.Title);
+
+            if(exists)
+            {
+                return new DeezerAlbumResult
+                {
+                    ResultStatus = DeezerResultStatusEnum.AlreadyExists,
+                    Album = album
+                };
+            }
+
+            return new DeezerAlbumResult
+            {
+                ResultStatus = deezerResult.ResultStatus,
+                Album = deezerResult.Album
+            };
         }
 
         public MusicRecordModel ServiceAddOneRecord(MusicRecordModel musicRecordModel)
