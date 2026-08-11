@@ -58,7 +58,7 @@ namespace RecordShop.Services
                 return new DeezerAlbumResult
                 {
                     ResultStatus = DeezerResultStatusEnum.AlreadyExists,
-                    Album = album
+                    Album = null
                 };
             }
 
