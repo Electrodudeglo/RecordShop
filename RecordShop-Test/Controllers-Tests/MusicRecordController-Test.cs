@@ -109,7 +109,6 @@ namespace RecordShop_Test
             Assert.AreEqual(200, result.StatusCode);
             Assert.AreEqual(deezerResult, result.Value);
 
-
         }
 
         [Test]

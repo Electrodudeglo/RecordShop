@@ -38,6 +38,14 @@ public class MusicRecordService_Test
         Assert.That(actual, Is.EqualTo(album));
     }
 
+    [Test]
+    public void CheckDeezer_Returns_Found_Record()
+    {
+
+
+        
+
+    }
 
     [Test]
     public void ServiceAddOneRecord_Add_Album_Returns_Created_Data()
