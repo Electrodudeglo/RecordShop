@@ -1,4 +1,5 @@
-﻿using RecordShop.Model;
+﻿using RecordShop.External;
+using RecordShop.Model;
 using RecordShop.Repository;
 
 namespace RecordShop.Services
@@ -8,6 +9,7 @@ namespace RecordShop.Services
     {
         public IEnumerable<MusicRecordModel> ServiceGetAllRecords();
         public MusicRecordModel ServiceGetOneRecord(int id);
+        public Task<DeezerAlbumResult> CheckDeezer(DeezerCheckRequest request);
         public MusicRecordModel ServiceAddOneRecord(MusicRecordModel musicRecordModel);
         public MusicRecordModel ServiceUpdateOneRecord(MusicRecordModel musicRecord, int id);
         public bool ServiceDeleteOneRecord(int id);
@@ -17,10 +19,12 @@ namespace RecordShop.Services
     {
 
         private readonly IMusicRecordRepo _musicRecordRepo;
+        private readonly IDeezerApiClient _deezer;
 
-        public MusicRecordService(IMusicRecordRepo musicRecordRepo)
+        public MusicRecordService(IMusicRecordRepo musicRecordRepo,IDeezerApiClient deezerApiClient)
         {
             _musicRecordRepo = musicRecordRepo;
+            _deezer = deezerApiClient;
         }
 
         public IEnumerable<MusicRecordModel> ServiceGetAllRecords()
@@ -31,6 +35,38 @@ namespace RecordShop.Services
         public MusicRecordModel ServiceGetOneRecord(int id)
         {
             return _musicRecordRepo.GetOneRecord(id);
+        }
+
+        public async Task<DeezerAlbumResult> CheckDeezer(DeezerCheckRequest request)
+        {       
+            var deezerResult = await _deezer.FindAlbumAsync(request.AlbumName, request.ArtistName);
+
+            if(deezerResult.ResultStatus != DeezerResultStatusEnum.Success)
+            {
+                return new DeezerAlbumResult
+                {
+                    ResultStatus = deezerResult.ResultStatus,
+                    Album = null
+                };
+            }
+
+            var album = deezerResult.Album;
+            var exists = await _musicRecordRepo.AlbumExists(album.Artist.Name, album.Title);
+
+            if(exists)
+            {
+                return new DeezerAlbumResult
+                {
+                    ResultStatus = DeezerResultStatusEnum.AlreadyExists,
+                    Album = null
+                };
+            }
+
+            return new DeezerAlbumResult
+            {
+                ResultStatus = deezerResult.ResultStatus,
+                Album = deezerResult.Album
+            };
         }
 
         public MusicRecordModel ServiceAddOneRecord(MusicRecordModel musicRecordModel)

@@ -10,6 +10,7 @@ using RecordShop.Services;
 using System.ComponentModel.Design;
 using System.Text;
 using RecordShop.Extensions;
+using RecordShop.External;
 
 namespace RecordShop
 {
@@ -24,6 +25,8 @@ namespace RecordShop
             // Add services to the container.
             builder.Services.AddScoped<IMusicRecordRepo,MusicRecordRepository>();
             builder.Services.AddScoped<IMusicRecordService, MusicRecordService>();
+            builder.Services.AddHttpClient<IDeezerApiClient, DeezerApiClient>();
+
 
             if (builder.Environment.IsDevelopment())
             {
@@ -42,7 +45,6 @@ namespace RecordShop
                 {
                     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
                 });
-
             }
 
             builder.Services.AddControllers();

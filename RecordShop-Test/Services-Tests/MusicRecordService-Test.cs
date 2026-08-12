@@ -3,18 +3,21 @@ using Moq;
 using RecordShop.Model;
 using RecordShop.Repository;
 using RecordShop.Services;
+using RecordShop.External;
 namespace RecordShop_Test;
 
 public class MusicRecordService_Test
 {
     private MusicRecordService _musicRecordService;
     private Mock<IMusicRecordRepo> _musicRecordRepoMoq;
+    private Mock<IDeezerApiClient> _deezerClientMoq;
 
     [SetUp]
     public void Setup()
     {
         _musicRecordRepoMoq = new Mock<IMusicRecordRepo>();
-        _musicRecordService = new MusicRecordService(_musicRecordRepoMoq.Object);
+        _deezerClientMoq = new Mock<IDeezerApiClient>();
+        _musicRecordService = new MusicRecordService(_musicRecordRepoMoq.Object, _deezerClientMoq.Object);
     }
 
     [Test]
@@ -34,6 +37,38 @@ public class MusicRecordService_Test
         MusicRecordModel actual = _musicRecordService.ServiceGetOneRecord(1);
         Assert.That(actual, Is.EqualTo(album));
     }
+
+    [Test]
+    public async Task CheckDeezer_Returns_Found_Record_And_ResultStatus_Success()
+    {
+        // Arrange
+        var deezerResult = new DeezerAlbumResult{
+            ResultStatus = DeezerResultStatusEnum.Success,
+            Album = new DeezerAlbumDetails
+            {
+                Title = "Toxicity",
+                Artist = new DeezerArtist { Name = "System of a Down" }
+            }
+        };
+
+        var request = new DeezerCheckRequest("Toxicity", "System of a Down");
+
+        _deezerClientMoq
+            .Setup(x => x.FindAlbumAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync(deezerResult);
+
+        _musicRecordRepoMoq
+            .Setup(x => x.AlbumExists("Toxicity", "System of a Down"))
+            .ReturnsAsync(false);
+
+        // Act
+        var actual = await _musicRecordService.CheckDeezer(request);
+
+        // Assert
+        Assert.AreEqual(DeezerResultStatusEnum.Success, actual.ResultStatus);
+        Assert.AreEqual("Toxicity", actual.Album.Title);
+    }
+
 
     [Test]
     public void ServiceAddOneRecord_Add_Album_Returns_Created_Data()

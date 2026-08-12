@@ -3,6 +3,7 @@ using Moq;
 using NUnit.Framework;
 using RecordShop.Controllers;
 using RecordShop.Model;
+using RecordShop.External;
 using RecordShop.Services;
 using System.Collections.Generic;
 
@@ -66,7 +67,50 @@ namespace RecordShop_Test
             Assert.IsNull(result.Value);
         }
 
-     
+        [Test]
+        public async Task CheckDeezerApi_Returns_Ok_With_Result()
+        {
+
+            //Arrange
+            var albumDetails = new DeezerAlbumDetails{
+                Id = 1,
+                Title = "In Times New Roman",
+                Artist = new DeezerArtist
+                {
+                    Name = "Queens of the Stone Age"
+                },
+                Release_Date = "2023-06-16",
+                Genres = new DeezerGenreContainer
+                {
+                    Data = new List<DeezerGenre>
+                    {
+                        new DeezerGenre {Name = "Rock" }
+                    }
+                },
+                Cover = "https://e-cdns-images.dzcdn.net/images/cover/abc123/1000x1000.jpg",
+                Cover_small = "https://e-cdns-images.dzcdn.net/images/cover/abc123/56x56.jpg",
+                Cover_medium = "https://e-cdns-images.dzcdn.net/images/cover/abc123/250x250.jpg",
+                Cover_big = "https://e-cdns-images.dzcdn.net/images/cover/abc123/500x500.jpg",
+                Cover_xl = "https://e-cdns-images.dzcdn.net/images/cover/abc123/1000x1000.jpg",
+                Fans = 500000
+            };
+            var deezerRequest = new DeezerCheckRequest("albumName","artistName");
+            var deezerResult = new DeezerAlbumResult{
+                Album = albumDetails,
+                ResultStatus = DeezerResultStatusEnum.Success
+            };          
+            _serviceMock.Setup(s=>s.CheckDeezer(deezerRequest)).ReturnsAsync(deezerResult);
+
+            //Act
+            var result = await _controller.CheckDeezerApi(deezerRequest) as OkObjectResult;
+
+            //Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(200, result.StatusCode);
+            Assert.AreEqual(deezerResult, result.Value);
+
+        }
+
         [Test]
         public void AddOneRecord_Returns_CreatedAtAction_With_Record()
         {
