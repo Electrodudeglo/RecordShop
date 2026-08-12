@@ -39,13 +39,36 @@ public class MusicRecordService_Test
     }
 
     [Test]
-    public void CheckDeezer_Returns_Found_Record()
+    public async Task CheckDeezer_Returns_Found_Record_And_ResultStatus_Success()
     {
+        // Arrange
+        var deezerResult = new DeezerAlbumResult{
+            ResultStatus = DeezerResultStatusEnum.Success,
+            Album = new DeezerAlbumDetails
+            {
+                Title = "Toxicity",
+                Artist = new DeezerArtist { Name = "System of a Down" }
+            }
+        };
 
+        var request = new DeezerCheckRequest("Toxicity", "System of a Down");
 
-        
+        _deezerClientMoq
+            .Setup(x => x.FindAlbumAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync(deezerResult);
 
+        _musicRecordRepoMoq
+            .Setup(x => x.AlbumExists("Toxicity", "System of a Down"))
+            .ReturnsAsync(false);
+
+        // Act
+        var actual = await _musicRecordService.CheckDeezer(request);
+
+        // Assert
+        Assert.AreEqual(DeezerResultStatusEnum.Success, actual.ResultStatus);
+        Assert.AreEqual("Toxicity", actual.Album.Title);
     }
+
 
     [Test]
     public void ServiceAddOneRecord_Add_Album_Returns_Created_Data()
