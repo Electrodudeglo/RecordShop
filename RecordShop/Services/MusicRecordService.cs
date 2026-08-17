@@ -1,4 +1,5 @@
-﻿using RecordShop.External;
+﻿using Microsoft.IdentityModel.Tokens;
+using RecordShop.External;
 using RecordShop.Model;
 using RecordShop.Repository;
 
@@ -39,23 +40,22 @@ namespace RecordShop.Services
 
         public async Task<DeezerAlbumResult> CheckDeezer(DeezerCheckRequest request)
         {       
-            var deezerResult = await _deezer.FindAlbumAsync(request.AlbumName, request.ArtistName);
+            DeezerAlbumResult? deezerResult = await _deezer.FindAlbumAsync(request.AlbumName, request.ArtistName) ?? new DeezerAlbumResult();
 
             if(deezerResult.ResultStatus != DeezerResultStatusEnum.Success)
             {
                 return new DeezerAlbumResult
                 {
                     ResultStatus = deezerResult.ResultStatus,
-                    Album = null
+                    Album = deezerResult.Album
                 };
             }
 
-            var album = deezerResult.Album;
-            var exists = await _musicRecordRepo.AlbumExists(album.Artist.Name, album.Title);
+            DeezerAlbumDetails album = deezerResult.Album ?? new DeezerAlbumDetails();
+            MusicRecordModel exists = _musicRecordRepo.AlbumExists(album.Artist.Name, album.Title) ?? new MusicRecordModel();
 
             if(exists.Artists != null)
             {
-
                 album.Id = exists.Id;
 
                 return new DeezerAlbumResult
@@ -64,7 +64,7 @@ namespace RecordShop.Services
                     Album = album
                 };
             }
-
+                
             return new DeezerAlbumResult
             {
                 ResultStatus = deezerResult.ResultStatus,

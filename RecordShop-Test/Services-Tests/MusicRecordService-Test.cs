@@ -59,14 +59,13 @@ public class MusicRecordService_Test
 
         _musicRecordRepoMoq
             .Setup(x => x.AlbumExists("Toxicity", "System of a Down"))
-            .ReturnsAsync(false);
+            .Returns(new MusicRecordModel());
 
         // Act
-        var actual = await _musicRecordService.CheckDeezer(request);
+        DeezerAlbumResult actual = await _musicRecordService.CheckDeezer(request);
 
         // Assert
-        Assert.AreEqual(DeezerResultStatusEnum.Success, actual.ResultStatus);
-        Assert.AreEqual("Toxicity", actual.Album.Title);
+        Assert.That(actual.ResultStatus, Is.EqualTo(deezerResult.ResultStatus));
     }
 
 

@@ -11,7 +11,7 @@ namespace RecordShop.Repository
     {
         public IEnumerable<MusicRecordModel> GetAllRecords();
         public MusicRecordModel GetOneRecord(int id);
-        public Task<MusicRecordModel> AlbumExists(string artistName, string albumName);
+        public MusicRecordModel AlbumExists(string artistName, string albumName);
         public MusicRecordModel AddOneRecord(MusicRecordModel musicRecordModel);
         public MusicRecordModel UpdateOneRecord(MusicRecordModel musicRecord, int id);
         public bool DeleteOneRecord(int id);
@@ -36,16 +36,9 @@ namespace RecordShop.Repository
             return _dbContext.MusicRecords.FirstOrDefault(m => m.Id == id) ?? new MusicRecordModel();
         }
  
-        public async Task<MusicRecordModel> AlbumExists(string artistName, string albumName)
+        public MusicRecordModel AlbumExists(string artistName, string albumName)
         {
-
-            MusicRecordModel result = _dbContext.MusicRecords.FirstOrDefault(d=>d.Artists == artistName && d.RecordTitle == albumName) ?? new MusicRecordModel();
-
-            if(result.Artists != null)
-            {
-                return result;
-            }
-            return new MusicRecordModel();
+            return _dbContext.MusicRecords.FirstOrDefault(d=>d.Artists == artistName && d.RecordTitle == albumName) ?? new MusicRecordModel();    
         }
 
         public MusicRecordModel AddOneRecord(MusicRecordModel musicRecordModel)
