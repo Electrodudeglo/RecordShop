@@ -51,7 +51,7 @@ namespace RecordShop.Services
             }
 
             var album = deezerResult.Album;
-            var exists = await _musicRecordRepo.AlbumExists(album.Artist.Name, album.Title);
+            var exists = _musicRecordRepo.AlbumExists(album.Artist.Name, album.Title);
 
             if(exists.Artists != null)
             {
