@@ -2,7 +2,7 @@
 
 A clean, modular ASP.NET Core Web API for managing music records.
 
-This project demonstrates a full CRUD system using MVC patterns, a service layer, repository abstraction, and an EF Core in‑memory database. It’s designed to be simple, readable, and ideal for learning or extending into a larger application.
+This project demonstrates a full CRUD system using MVC patterns, a service layer, repository abstraction, and an EF Core in‑memory database. It showcases my general skills in API development.
 
 # Core Features
 
