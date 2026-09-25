@@ -74,7 +74,10 @@ namespace RecordShop
 
             var app = builder.Build();
 
-            await app.EnsureDatabaseConnectionAsync();
+            if(!builder.Environment.IsDevelopment())
+            {
+                await app.EnsureDatabaseConnectionAsync();
+            }
 
             if (app.Environment.IsDevelopment())
             {
