@@ -13,6 +13,7 @@ This project demonstrates a full CRUD system using MVC patterns, a service layer
 - Delete records
 - JSON‑based seed data
 - EF Core with SQLite in‑memory provider
+- MYSQL Database connection checker and setup functions
 
 
 # Why This Project Exists
