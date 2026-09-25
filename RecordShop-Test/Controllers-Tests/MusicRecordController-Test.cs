@@ -34,9 +34,9 @@ namespace RecordShop_Test
 
             var result = _controller.Index() as OkObjectResult;
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(200, result.StatusCode);
-            Assert.AreEqual(records, result.Value);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.StatusCode, Is.EqualTo(200));
+            Assert.That(result.Value, Is.EqualTo(records));
         }
 
         
@@ -49,22 +49,25 @@ namespace RecordShop_Test
 
             var result = _controller.getOneRecord(1) as OkObjectResult;
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(200, result.StatusCode);
-            Assert.AreEqual(record, result.Value);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.StatusCode, Is.EqualTo(200));
+            Assert.That(result.Value, Is.EqualTo(record));
         }
 
         [Test]
-        public void GetOneRecord_Returns_Ok_With_Null_When_NotFound()
+        public void GetOneRecord_Returns_Ok_With_Empty_Record_When_NotFound()
         {
+            // The repository returns an empty MusicRecordModel (not null) when no record matches.
+            var emptyRecord = new MusicRecordModel();
+
             _serviceMock.Setup(s => s.ServiceGetOneRecord(999))
-                        .Returns((MusicRecordModel)null);
+                        .Returns(emptyRecord);
 
             var result = _controller.getOneRecord(999) as OkObjectResult;
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(200, result.StatusCode);
-            Assert.IsNull(result.Value);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.StatusCode, Is.EqualTo(200));
+            Assert.That(result.Value, Is.EqualTo(emptyRecord));
         }
 
         [Test]
@@ -105,9 +108,9 @@ namespace RecordShop_Test
             var result = await _controller.CheckDeezerApi(deezerRequest) as OkObjectResult;
 
             //Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(200, result.StatusCode);
-            Assert.AreEqual(deezerResult, result.Value);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.StatusCode, Is.EqualTo(200));
+            Assert.That(result.Value, Is.EqualTo(deezerResult));
 
         }
 
@@ -124,10 +127,10 @@ namespace RecordShop_Test
 
             var result = _controller.AddOneRecord(newRecord) as CreatedAtActionResult;
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(201, result.StatusCode);
-            Assert.AreEqual("getOneRecord", result.ActionName);
-            Assert.AreEqual(newRecord, result.Value);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.StatusCode, Is.EqualTo(201));
+            Assert.That(result.ActionName, Is.EqualTo("getOneRecord"));
+            Assert.That(result.Value, Is.EqualTo(newRecord));
         }
 
        
@@ -144,10 +147,10 @@ namespace RecordShop_Test
 
             var result = _controller.UpdateOneRecord(updated, 5) as CreatedAtActionResult;
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(201, result.StatusCode);
-            Assert.AreEqual("getOneRecord", result.ActionName);
-            Assert.AreEqual(updated, result.Value);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.StatusCode, Is.EqualTo(201));
+            Assert.That(result.ActionName, Is.EqualTo("getOneRecord"));
+            Assert.That(result.Value, Is.EqualTo(updated));
         }
 
         
@@ -158,8 +161,8 @@ namespace RecordShop_Test
 
             var result = _controller.DeleteOneRecord(1) as NoContentResult;
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(204, result.StatusCode);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.StatusCode, Is.EqualTo(204));
         }
 
         [Test]
@@ -169,8 +172,8 @@ namespace RecordShop_Test
 
             var result = _controller.DeleteOneRecord(999) as NotFoundObjectResult;
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(404, result.StatusCode);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.StatusCode, Is.EqualTo(404));
         }
     }
 }
