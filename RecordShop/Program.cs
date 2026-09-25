@@ -11,6 +11,7 @@ using System.ComponentModel.Design;
 using System.Text;
 using RecordShop.Extensions;
 using RecordShop.External;
+using RecordShop.Options;
 
 namespace RecordShop
 {
@@ -53,7 +54,21 @@ namespace RecordShop
             builder.Services.AddSwaggerGen();
             builder.Services.AddTransient<CustomLogger>();
 
-            var jwtSettings = builder.Configuration.GetSection("jwt");
+            var jwtSection = builder.Configuration.GetSection(JwtOptions.SectionName);
+            var jwtOptions = jwtSection.Get<JwtOptions>() ?? new JwtOptions();
+
+            var jwtErrors = jwtOptions.Validate(builder.Environment.IsDevelopment());
+            if (jwtErrors.Count > 0)
+            {
+                foreach (var error in jwtErrors)
+                {
+                    Console.WriteLine($"❌ {error}");
+                }
+                Console.WriteLine("❌ Application startup aborted — invalid JWT configuration.");
+                Environment.Exit(1); // Hard stop
+            }
+
+            builder.Services.Configure<JwtOptions>(jwtSection);
 
             builder.Services
                 .AddAuthentication("Bearer")
@@ -65,16 +80,19 @@ namespace RecordShop
                         ValidateAudience = true,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
-                        ValidIssuer = jwtSettings["Issuer"],
-                        ValidAudience = jwtSettings["Audience"],
+                        ValidIssuer = jwtOptions.Issuer,
+                        ValidAudience = jwtOptions.Audience,
                         IssuerSigningKey = new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(jwtSettings["Key"]))
+                        Encoding.UTF8.GetBytes(jwtOptions.Key))
                     };
                 });
 
             var app = builder.Build();
 
-            await app.EnsureDatabaseConnectionAsync();
+            if(!builder.Environment.IsDevelopment())
+            {
+                await app.EnsureDatabaseConnectionAsync();
+            }
 
             if (app.Environment.IsDevelopment())
             {

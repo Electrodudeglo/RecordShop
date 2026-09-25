@@ -68,6 +68,39 @@ public class MusicRecordService_Test
         Assert.That(actual.ResultStatus, Is.EqualTo(deezerResult.ResultStatus));
     }
 
+    [Test]
+    public async Task CheckDeezer_Returns_AlreadyExists_With_Stored_Id_When_Album_In_Database()
+    {
+        // Arrange
+        var deezerResult = new DeezerAlbumResult{
+            ResultStatus = DeezerResultStatusEnum.Success,
+            Album = new DeezerAlbumDetails
+            {
+                Title = "Toxicity",
+                Artist = new DeezerArtist { Name = "System of a Down" }
+            }
+        };
+
+        var request = new DeezerCheckRequest("Toxicity", "System of a Down");
+        var storedAlbum = new MusicRecordModel("Toxicity", "System of a Down", "2001", "Metal") { Id = 7 };
+
+        _deezerClientMoq
+            .Setup(x => x.FindAlbumAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync(deezerResult);
+
+        _musicRecordRepoMoq
+            .Setup(x => x.AlbumExists("System of a Down", "Toxicity"))
+            .Returns(storedAlbum);
+
+        // Act
+        DeezerAlbumResult actual = await _musicRecordService.CheckDeezer(request);
+
+        // Assert
+        Assert.That(actual.ResultStatus, Is.EqualTo(DeezerResultStatusEnum.AlreadyExists));
+        Assert.That(actual.Album, Is.Not.Null);
+        Assert.That(actual.Album.Id, Is.EqualTo(storedAlbum.Id));
+    }
+
 
     [Test]
     public void ServiceAddOneRecord_Add_Album_Returns_Created_Data()

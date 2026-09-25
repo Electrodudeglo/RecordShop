@@ -11,8 +11,8 @@ namespace RecordShop
             var filePath = Path.Combine("Resources", "MusicRecordData.json");
             var json = File.ReadAllText(filePath);
             var records = JsonSerializer.Deserialize<List<MusicRecordModel>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true});
-            myDbContext.MusicRecords.AddRange(records);
-            myDbContext.SaveChanges();
+            myDbContext.MusicRecords.AddRange(records ?? []);
+            myDbContext?.SaveChanges();
         }
     }
 }
