@@ -24,6 +24,9 @@ To provide a friendly, approachable example of how to structure a real ASP.NET C
 
 **Prerequisites:** .NET 8 SDK
 
+The project runs on .NET 8. To install the SDK, please check Microsoft's official page here https://dotnet.microsoft.com/en-us/download/dotnet/8.0 
+
+
 The app has two launch profiles, defined in `RecordShop/Properties/launchSettings.json`:
 
 | Profile       | Environment   | Database                  |
@@ -34,12 +37,16 @@ The app has two launch profiles, defined in `RecordShop/Properties/launchSetting
 ### Development (default)
 
 ```bash
-dotnet run --project RecordShop --launch-profile Development
+dotnet run --launch-profile Development
 ```
 
-Then open http://localhost:5125/swagger. Running `dotnet run` with no profile also uses `Development`.
+Then open http://localhost:5125. Running `dotnet run` with no profile also uses `Development`.
 
-To get a JWT token, send `POST /api/auth/token` with the dev credentials:
+To get a JWT token, send `POST /api/auth/token` with the dev credentials using a website like [Postman](https://www.postman.com). This will authenticate you login, allowing you to use HTTP requests that need Authentication.
+
+Use the following loging credentials to log in (Or you can change the username and password in Controllers/AuthControllers.cs file)
+
+**The credentials are just placeholders or intended to be temporary.**
 
 ```json
 { "username": "mohamed@waveform.com", "password": "password123" }
@@ -47,26 +54,30 @@ To get a JWT token, send `POST /api/auth/token` with the dev credentials:
 
 ### Production
 
+If you intend to run the project using MYSQL, follow the instructions below.
+
 1. Copy `RecordShop/appsettings.Production.example.json` to `RecordShop/appsettings.Production.json`. Git ignores this file.
-2. Fill in your MySQL connection string and a real JWT key (at least 32 characters).
-3. Run:
+2. Fill in your MySQL connection string.
+3. Set a real JWT key (at least 32 characters). The recommended way is an environment variable, so the key never sits in the project folder:
+   - Bash: `export Jwt__Key="your-long-random-key"`
+   - PowerShell: `$env:Jwt__Key = "your-long-random-key"`
+   - Alternatively, replace the `Jwt:Key` placeholder in `appsettings.Production.json`.
+
+   You can generate a key with `openssl rand -base64 48`. The app refuses to start in Production if the key is missing, too short, or still one of the placeholder keys.
+4. Then run the project by typing in the following command in your terminal:
 
 ```bash
-dotnet run --project RecordShop --launch-profile Production
+dotnet run --launch-profile Production
 ```
 
-On startup the app checks the MySQL connection. If it can't reach the database, it stops with:
+On startup, the app checks the MySQL connection. 
 
-```
-❌ Database connection failed: ...
-❌ Application startup aborted — cannot reach database.
-```
 
 ### Configuration files
 
 | File                                  | Committed | Purpose                                   |
 |---------------------------------------|-----------|-------------------------------------------|
-| `appsettings.json`                    | Yes       | Shared settings: logging, JWT issuer/audience, dev JWT key |
-| `appsettings.Development.json`        | Yes       | SQLite in-memory connection string        |
+| `appsettings.json`                    | Yes       | Shared settings: logging, JWT issuer/audience |
+| `appsettings.Development.json`        | Yes       | SQLite in-memory connection string, dev-only JWT key |
 | `appsettings.Production.example.json` | Yes       | Template for production settings          |
 | `appsettings.Production.json`         | No        | Your real MySQL connection string and secrets |
