@@ -53,6 +53,8 @@ namespace RecordShop.Repository
 
             var record = _dbContext.MusicRecords.FirstOrDefault(r => r.Id == id);
 
+            if (record is null) { return new MusicRecordModel();}
+
             record.RecordTitle = musicRecord.RecordTitle;
             record.Artists = musicRecord.Artists;
             record.ReleaseYear = musicRecord.ReleaseYear;

@@ -68,7 +68,7 @@ namespace RecordShop
                         ValidIssuer = jwtSettings["Issuer"],
                         ValidAudience = jwtSettings["Audience"],
                         IssuerSigningKey = new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(jwtSettings["Key"]))
+                        Encoding.UTF8.GetBytes(jwtSettings["Key"] ?? ""))
                     };
                 });
 
