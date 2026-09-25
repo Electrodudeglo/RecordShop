@@ -54,7 +54,7 @@ namespace RecordShop.Services
             DeezerAlbumDetails album = deezerResult.Album ?? new DeezerAlbumDetails();
             MusicRecordModel exists = _musicRecordRepo.AlbumExists(album.Artist.Name, album.Title) ?? new MusicRecordModel();
 
-            if(exists.Artists != null)
+            if(exists.Id != 0)
             {
                 album.Id = exists.Id;
 
